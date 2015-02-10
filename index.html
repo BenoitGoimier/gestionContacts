@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="contactApp" style="background-color: #61a1bb;">
+    <head>
+        <meta charset="UTF-8">
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js" type="text/javascript"></script>
+        <script src="./app/contactApp.js" type="text/javascript"></script>
+        <script src="./app/contactController.js" type="text/javascript"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+        <link href="./style.css" type="text/css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div ng-controller="ContactController as contactc">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-primary" style="margin-top: 15%;">
+                    <div class="panel-heading"><strong>Contacts</strong></div>
+                    <div style="margin: 5px;">
+                        <table class="table table-striped">
+                            <tr>
+                                <td><input type="text" class="form-control" ng-model="filtreNom" ng-change="contactc.filtre()" placeholder="Filter ..."/></td>
+                                <td><input type="text" class="form-control" ng-model="filtrePrenom" ng-change="contactc.filtre()" placeholder="Filter ..."/></td>
+                                <td><input type="text" class="form-control" ng-model="filtreEmail"  ng-change="contactc.filtre()" placeholder="Filter ..."/></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>E-mail</th>
+                                <th>Option</th>
+                            </tr>
+                            <tr ng-repeat="contact in contactc.contacts">
+                                <td>{{contact.nom}}</td>
+                                <td>{{contact.prenom}}</td>
+                                <td>{{contact.email}}</td>
+                                <td>
+                                    [<a href="" ng-click="contactc.toUpdate(contact)">...</a>]
+                                    [<a href="" ng-click="contactc.delete(contact)">X</a>]
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <div>
+                            <button class="btn btn-primary" type="button" ng-click="contactc.toAdd()">
+                                <span class="glyphicon glyphicon-plus"></span> Ajouter...
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                    <div ng-show="contactc.edit == 1">
+                        <fieldset class="form-group" style="margin: 5px;">
+                            <legend>
+                                <div ng-show="contactc.operation == 'ajout'">Ajouter un contact</div>
+                                <div ng-show="contactc.operation == 'modification'">Modifier un contact</div>
+                            </legend>
+                            <input type="text" class="form-control" ng-model="nom" placeholder="Nom ..." style="width: 26%; float: left; margin-right: 5px;">
+                            <input type="text" class="form-control" ng-model="prenom" placeholder="Prénom ..." style="width: 26%; float: left; margin-right: 5px;">
+                            <input type="text" class="form-control" ng-model="email" placeholder="Adresse e-mail ..." style="width: 26%; float: left; margin-right: 5px;">
+                            <button class="btn btn-primary" type="button" ng-click="contactc.add()">
+                                Valider
+                            </button>
+                            <button class="btn btn-primary" type="button" ng-click="contactc.cancel()">
+                                Annuler
+                            </button>
+                        </fieldset>
+                        <br>
+                    </div>
+                    <div style="margin: 5px;">
+                        <strong><ng-pluralize count="contactc.countContacts()" when="{'0': '0 contact trouvé', 'one': '1 contact trouvé', 'other': '{} contacts trouvés'}"></ng-pluralize></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
